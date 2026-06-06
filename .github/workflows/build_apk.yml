@@ -32,10 +32,10 @@ jobs:
         run: flutter pub get
 
       - name: Build APK
-        run: flutter build apk --release --no-tree-shake-icons
+        run: flutter build apk --debug # 将 --release 改为 --debug，并去掉 tree-shake 参数
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: alclient-tv-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: alclient-tv-debug
+          path: build/app/outputs/flutter-apk/app-debug.apk # 注意这里路径也变成了 app-debug.apk
