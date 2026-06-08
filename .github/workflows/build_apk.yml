@@ -24,26 +24,18 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.13.9' # 指定一个特定的、兼容你当前 Gradle 写法的旧版本
+          flutter-version: '3.13.9'
           channel: 'stable'
           cache: true    
 
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Pre-download Gradle
-        run: |
-          ls -R
-          GRADLEW_PATH=$(find . -name gradlew | head -n 1)
-          echo "Found gradlew at: $GRADLEW_PATH"
-          chmod +x "$GRADLEW_PATH"
-          "$GRADLEW_PATH" --version
-
       - name: Build APK
-        run: flutter build apk --debug # 将 --release 改为 --debug，并去掉 tree-shake 参数
+        run: flutter build apk --debug
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: alclient-tv-debug
-          path: build/app/outputs/flutter-apk/app-debug.apk # 注意这里路径也变成了 app-debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
