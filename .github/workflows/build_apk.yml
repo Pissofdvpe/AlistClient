@@ -33,9 +33,7 @@ jobs:
 
       - name: Pre-download Gradle
         run: |
-          cd android
-          chmod +x gradlew
-          ./gradlew --version
+          ./android/gradlew --version
 
       - name: Build APK
         run: flutter build apk --debug # 将 --release 改为 --debug，并去掉 tree-shake 参数
