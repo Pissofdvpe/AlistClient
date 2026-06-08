@@ -39,6 +39,12 @@ class Intl {
       "settingsScreen_item_cacheManagement";
   static const String settingsScreen_item_videoPlayer =
       "settingsScreen_item_videoPlayer";
+  static const String settingsScreen_item_personalization =
+      "settingsScreen_item_personalization";
+  static const String personalization_followSystem =
+      "personalization_followSystem";
+  static const String personalization_light = "personalization_light";
+  static const String personalization_dark = "personalization_dark";
   static const String photo_load_failed = "photo_load_failed";
   static const String wechat = "wechat";
   static const String alipay = "alipay";

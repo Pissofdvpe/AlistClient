@@ -45,4 +45,5 @@ class AlistConstant {
       'projectorNativePlayerCompleted';
 
   static const String locale = 'locale';
+  static const String themeMode = 'themeMode';
 }

@@ -1,10 +1,12 @@
 import 'package:alist/l10n/alist_translations.dart';
 import 'package:alist/l10n/intl_keys.dart';
 import 'package:alist/router.dart';
+import 'package:alist/util/constant.dart';
 import 'package:alist/util/log_utils.dart';
 import 'package:alist/util/named_router.dart';
 import 'package:alist/util/projector_remote_navigation.dart';
 import 'package:alist/util/proxy.dart';
+import 'package:alist/util/theme_controller.dart';
 import 'package:alist/util/user_controller.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/foundation.dart';
@@ -40,6 +42,7 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [FlutterSmartDialog.observer],
       defaultTransition: Transition.cupertino,
       title: "ALClient",
+      themeMode: ThemeMode.values[(SpUtil.getInt(AlistConstant.themeMode) ?? 0).clamp(0, 2)],
       theme: _lightTheme(context),
       darkTheme: _dartTheme(context),
     );
@@ -50,6 +53,7 @@ class MyApp extends StatelessWidget {
     Get.put(AlistDatabaseController());
     Get.put(UserController());
     Get.put(ProxyServer());
+    Get.put(ThemeController());
     final mediaQuery = MediaQuery.of(context);
     final isAndroid = defaultTargetPlatform == TargetPlatform.android;
 

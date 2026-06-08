@@ -8,6 +8,7 @@ import 'package:alist/util/constant.dart';
 import 'package:alist/util/global.dart';
 import 'package:alist/util/log_utils.dart';
 import 'package:alist/util/named_router.dart';
+import 'package:alist/util/theme_controller.dart';
 import 'package:alist/util/user_controller.dart';
 import 'package:alist/util/widget_utils.dart';
 import 'package:alist/widget/alist_scaffold.dart';
@@ -82,6 +83,9 @@ class _SettingsContainerState extends State<_SettingsContainer>
     return ListTile(
       onTap: () {
         switch (settingsMenu.menuId) {
+          case MenuId.personalization:
+            _showThemeModeDialog(context);
+            break;
           case MenuId.signIn:
             _userController.logout();
             Get.offNamed(NamedRouter.login);
@@ -129,7 +133,13 @@ class _SettingsContainerState extends State<_SettingsContainer>
       horizontalTitleGap: 2,
       tileColor: Theme.of(context).colorScheme.background.withAlpha(125),
       minVerticalPadding: 15,
-      leading: Image.asset(settingsMenu.icon),
+      leading: settingsMenu.menuId == MenuId.personalization
+          ? ColorFiltered(
+              colorFilter: const ColorFilter.mode(
+                  Color(0xFF70C6BE), BlendMode.srcIn),
+              child: Image.asset(settingsMenu.icon),
+            )
+          : Image.asset(settingsMenu.icon),
       title: Text(settingsMenu.name),
       trailing: Image.asset(
         Images.iconArrowRight,
@@ -142,8 +152,62 @@ class _SettingsContainerState extends State<_SettingsContainer>
     packageInfo = await PackageInfo.fromPlatform();
   }
 
+  void _showThemeModeDialog(BuildContext context) {
+    final ThemeController themeController = Get.find();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(Intl.settingsScreen_item_personalization.tr),
+          content: Obx(() => Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  RadioListTile<ThemeMode>(
+                    title: Text(Intl.personalization_followSystem.tr),
+                    value: ThemeMode.system,
+                    groupValue: themeController.themeMode.value,
+                    onChanged: (ThemeMode? value) {
+                      if (value != null) {
+                        themeController.setThemeMode(value);
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                  RadioListTile<ThemeMode>(
+                    title: Text(Intl.personalization_light.tr),
+                    value: ThemeMode.light,
+                    groupValue: themeController.themeMode.value,
+                    onChanged: (ThemeMode? value) {
+                      if (value != null) {
+                        themeController.setThemeMode(value);
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                  RadioListTile<ThemeMode>(
+                    title: Text(Intl.personalization_dark.tr),
+                    value: ThemeMode.dark,
+                    groupValue: themeController.themeMode.value,
+                    onChanged: (ThemeMode? value) {
+                      if (value != null) {
+                        themeController.setThemeMode(value);
+                        Navigator.of(context).pop();
+                      }
+                    },
+                  ),
+                ],
+              )),
+        );
+      },
+    );
+  }
+
   List<SettingsMenu> _buildSettingsMenuItems(BuildContext context) {
     final settingsMenus = [
+      SettingsMenu(
+          menuId: MenuId.personalization,
+          name: Intl.settingsScreen_item_personalization.tr,
+          icon: Images.settingsScreenPersonalization),
       SettingsMenu(
           menuId: MenuId.downloads,
           name: Intl.settingsScreen_item_downloads.tr,
@@ -211,12 +275,14 @@ class _SettingsContainerState extends State<_SettingsContainer>
 class SettingsMenu {
   final String name;
   final String icon;
+  final IconData? iconData;
   final String? route;
   final MenuId menuId;
 
   SettingsMenu({
     required this.name,
     required this.icon,
+    this.iconData,
     this.route,
     required this.menuId,
   });
@@ -227,6 +293,7 @@ enum MenuId {
   account,
   downloads,
   donate,
+  personalization,
   privacyPolicy,
   about,
   cacheManager,

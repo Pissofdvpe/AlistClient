@@ -31,5 +31,6 @@ class Images {
   static const String settingsScreenDonate = 'assets/images/settings_screen_donate.png';
   static const String settingsScreenDownload = 'assets/images/settings_screen_download.png';
   static const String settingsScreenPlayer = 'assets/images/settings_screen_player.png';
+  static const String settingsScreenPersonalization = 'assets/images/settings_screen_personalization.png';
   static const String settingsScreenPrivacyPolicy = 'assets/images/settings_screen_privacy_policy.png';
 }
